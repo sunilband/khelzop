@@ -17,7 +17,7 @@ module.exports = {
         primary: "#6842FF", // primary color
         secondary: "#F0F1F9", // secondary color
         darkprimary: "#1D1F2C", // dark primary color
-        darksecondary: "#495057", // dark secondary color
+        darksecondary: "#222341", // dark secondary color
         darkBg: "#191A31",
         lightBG: "#EAEAEA",
       },

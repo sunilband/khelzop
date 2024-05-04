@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getAllGames } from "@/lib/apiCalls/getAllGames";
 
-interface Game {
+export interface Game {
   code: string;
   nameEn: string;
   battleSupported: boolean;
@@ -13,6 +13,7 @@ interface Game {
   categories: string[];
   created_at: string;
   gamePlays: number;
+  image?: string; // this is not coming from api but can be added
 }
 
 interface GamesContextProps {
@@ -20,6 +21,8 @@ interface GamesContextProps {
   setGamesData: React.Dispatch<React.SetStateAction<Game[] | null>>;
   filteredGames: FilteredGames | null;
   setFilteredGames: React.Dispatch<React.SetStateAction<FilteredGames | null>>;
+  selectedCategory: string | null;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 interface FilteredGames {
@@ -35,6 +38,7 @@ export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [filteredGames, setFilteredGames] = useState<FilteredGames | null>(
     null,
   );
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const filteredHashMap = (games: Game[]): FilteredGames => {
     const hashMap: FilteredGames = {};
@@ -47,6 +51,22 @@ export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
         hashMap[category].push(game);
       });
     });
+
+    // Add 'random' category
+    const randomGames = [...games];
+    randomGames.sort(() => Math.random() - 0.5);
+    hashMap["random"] = randomGames.slice(0, 20);
+
+    // Add 'new' category
+    const newGames = [...games];
+    newGames.sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
+    hashMap["new"] = newGames.slice(0, 20);
+
+    // Add 'favorites' category
+    hashMap["favorites"] = [];
 
     return hashMap;
   };
@@ -68,7 +88,14 @@ export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <GamesContext.Provider
-      value={{ gamesData, setGamesData, filteredGames, setFilteredGames }}
+      value={{
+        gamesData,
+        setGamesData,
+        filteredGames,
+        setFilteredGames,
+        selectedCategory,
+        setSelectedCategory,
+      }}
     >
       {children}
     </GamesContext.Provider>

@@ -1,6 +1,6 @@
 const server = process.env.NEXT_PUBLIC_GAMEZOP_API;
 
-export const getAllGames = async (language = "hi") => {
+export const getAllGames = async (language = "en") => {
   try {
     let response = await fetch(server + language);
     let data = await response.json();
