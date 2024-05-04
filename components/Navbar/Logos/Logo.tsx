@@ -31,8 +31,8 @@ const Logo = (props: Props) => {
       <Image
         src="/icons/logo.svg"
         alt="Khelzop"
-        width={40}
-        height={40}
+        width={35}
+        height={35}
         className="shake"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

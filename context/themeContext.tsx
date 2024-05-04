@@ -23,12 +23,12 @@ type Props = {
 
 export const ThemeProvider = ({ children }: Props) => {
   const [currentTheme, setTheme] = useState(() => {
-    const localTheme = window.localStorage.getItem("theme");
+    const localTheme = localStorage?.getItem("theme");
     return localTheme ? localTheme : "light";
   });
 
   useEffect(() => {
-    const localTheme = window.localStorage.getItem("theme");
+    const localTheme = localStorage?.getItem("theme");
     if (localTheme) {
       setTheme(localTheme);
     }
@@ -39,7 +39,7 @@ export const ThemeProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    window.localStorage.setItem("theme", currentTheme);
+    localStorage?.setItem("theme", currentTheme);
     if (currentTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {

@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Inter, Nunito } from "next/font/google";
 import Navbar from "@/components/Navbar/Navbar";
 import { ThemeProvider } from "@/context/themeContext";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import { SidebarProvider } from "@/context/sidebarOpenContext";
 
 const inter = Inter({ subsets: ["latin"] });
 const nunito = Nunito({
@@ -30,10 +32,16 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${nunito.variable} font-sans`}>
         <ThemeProvider>
-          <GamesProvider>
-            <Navbar />
-            {children}
-          </GamesProvider>
+          <SidebarProvider>
+            <GamesProvider>
+              <Navbar />
+              <div className="flex">
+                {/* <Sidebar /> */}
+                <Sidebar />
+                {children}
+              </div>
+            </GamesProvider>
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>

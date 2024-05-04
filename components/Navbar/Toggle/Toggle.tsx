@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Toggle.css";
 import { useTheme } from "../../../context/themeContext";
 

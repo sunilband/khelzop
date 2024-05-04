@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { getAllGames } from "@/lib/apiCalls/getAllGames";
 
 interface Game {
   code: string;
@@ -14,25 +15,15 @@ interface Game {
   gamePlays: number;
 }
 
-interface GameData {
-  games: Game[];
-  categories: { [key: string]: string };
-  trendingGames: string[];
-  gameOfTheWeek: string;
-  newlyAddedGames: string[];
-}
-
-interface ApiResponse {
-  data: GameData;
-  error: string;
-  code: string;
-}
-
 interface GamesContextProps {
-  gamesData: ApiResponse | null;
-  setGamesData: React.Dispatch<React.SetStateAction<ApiResponse | null>>;
-  filteredGames: Game[] | null;
-  setFilteredGames: React.Dispatch<React.SetStateAction<Game[] | null>>;
+  gamesData: Game[] | null;
+  setGamesData: React.Dispatch<React.SetStateAction<Game[] | null>>;
+  filteredGames: FilteredGames | null;
+  setFilteredGames: React.Dispatch<React.SetStateAction<FilteredGames | null>>;
+}
+
+interface FilteredGames {
+  [category: string]: Game[];
 }
 
 const GamesContext = createContext<GamesContextProps | undefined>(undefined);
@@ -40,8 +31,40 @@ const GamesContext = createContext<GamesContextProps | undefined>(undefined);
 export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [gamesData, setGamesData] = useState<ApiResponse | null>(null);
-  const [filteredGames, setFilteredGames] = useState<Game[] | null>(null);
+  const [gamesData, setGamesData] = useState<Game[] | null>(null);
+  const [filteredGames, setFilteredGames] = useState<FilteredGames | null>(
+    null,
+  );
+
+  const filteredHashMap = (games: Game[]): FilteredGames => {
+    const hashMap: FilteredGames = {};
+
+    games.forEach((game) => {
+      game.categories.forEach((category) => {
+        if (!hashMap[category]) {
+          hashMap[category] = [];
+        }
+        hashMap[category].push(game);
+      });
+    });
+
+    return hashMap;
+  };
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const response = await getAllGames();
+        setGamesData(response.data.games);
+        const filtererData = filteredHashMap(response.data.games);
+        setFilteredGames(filtererData);
+      } catch (error) {
+        console.error("Failed to fetch games:", error);
+      }
+    };
+
+    fetchGames();
+  }, []);
 
   return (
     <GamesContext.Provider
