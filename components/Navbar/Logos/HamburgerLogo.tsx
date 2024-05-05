@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { MdMenuOpen } from "react-icons/md";
 import { useSidebar } from "@/context/sidebarOpenContext";
 
@@ -10,7 +10,9 @@ const HamburgerLogo = (props: Props) => {
   return (
     <MdMenuOpen
       className={`w-10 h-10 cursor-pointer  dark:invert ${sidebarOpen ? "rotate-0" : "rotate-180"}`}
-      onClick={() => toggleSidebar()}
+      onClick={() => {
+        !sidebarOpen && toggleSidebar();
+      }}
     />
   );
 };

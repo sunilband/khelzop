@@ -1,26 +1,35 @@
 "use client";
-import React from "react";
-import GameCard from "../GameCard.tsx/GameCard";
+import React, { useEffect, useState } from "react";
 import SwiperComponent from "../Swiper/SwiperComponent";
 import { useGames } from "@/context/gamesContext";
 import Image from "next/image";
 import { MdNavigateNext } from "react-icons/md";
 import CategoryGames from "./CategoryGames/CategoryGames";
+import SwiperSkeleton from "../Skeletons/SwiperSkeleton";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Games = (props: Props) => {
-  const { filteredGames, selectedCategory, setSelectedCategory } = useGames();
+  const { filteredGames, setSelectedCategory } = useGames();
+  const router = useRouter();
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    setScreenWidth(window.innerWidth);
+  }, []);
+
+  const numberOfSkeletons = screenWidth > 800 ? 5 : 3;
+
   return (
     <div
       className={`w-full h-[92%] flex flex-col gap-4 items-center overflow-auto  sm:px-10 px-2 py-10`}
     >
-      {/* show all games from a category */}
-      {selectedCategory && <CategoryGames category={selectedCategory} />}
+      {/* skeleton */}
+      {!filteredGames && Array(numberOfSkeletons).fill(<SwiperSkeleton />)}
 
       {/* show filtered games */}
       {filteredGames &&
-        !selectedCategory &&
         Object.keys(filteredGames).map((key, index) => {
           return (
             <div
@@ -36,13 +45,17 @@ const Games = (props: Props) => {
                     alt="strategy"
                   />
                   <p className="font-extrabold tracking-wide sm:text-xl text-lg dark:text-white uppercase">
-                    {key}
+                    {key == "sportsRacing"
+                      ? "Sports/Racing"
+                      : key == "puzzleLogic"
+                        ? "Puzzle/Logic"
+                        : key}
                   </p>
                 </div>
 
                 <button
                   className="bg-primary   flex items-center text-white px-4 py-2 rounded-lg"
-                  onClick={() => setSelectedCategory(key)}
+                  onClick={() => router.push(`/${key}`)}
                 >
                   Show All
                   <div className="ml-2 bg-black rounded-full p-1">

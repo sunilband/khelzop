@@ -37,7 +37,7 @@ const Logo = (props: Props) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       />
-      <audio ref={audioRef} src="/path/to/your/audio/file.mp3" />
+      <audio ref={audioRef} src="/audio/shake-audio.mp3" />
     </>
   );
 };

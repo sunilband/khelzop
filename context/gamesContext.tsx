@@ -75,7 +75,9 @@ export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchGames = async () => {
       try {
         const response = await getAllGames();
+        // @ts-ignore
         setGamesData(response.data.games);
+        // @ts-ignore
         const filtererData = filteredHashMap(response.data.games);
         setFilteredGames(filtererData);
       } catch (error) {

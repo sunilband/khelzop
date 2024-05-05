@@ -19,8 +19,8 @@ const SwiperComponent = (props: Props) => {
     <Swiper
       spaceBetween={5}
       slidesPerView={6}
-      onSlideChange={() => console.log("slide change")}
-      onSwiper={(swiper) => console.log(swiper)}
+      // onSlideChange={() => console.log("slide change")}
+      // onSwiper={(swiper) => console.log(swiper)}
       navigation={true}
       autoplay={{
         delay: 10000,
@@ -35,6 +35,13 @@ const SwiperComponent = (props: Props) => {
           spaceBetween: 5,
           centeredSlidesBounds: true,
         },
+
+        // when window width is >= 480px
+        560: {
+          slidesPerView: 3,
+          spaceBetween: 5,
+        },
+
         // when window width is >= 768px
         768: {
           slidesPerView: 4,
@@ -54,6 +61,7 @@ const SwiperComponent = (props: Props) => {
             rating={game.rating}
             image={game.image}
             code={game.code}
+            index={index}
           />
         </SwiperSlide>
       ))}
