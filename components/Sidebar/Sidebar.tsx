@@ -6,22 +6,28 @@ import { useSidebar } from "@/context/sidebarOpenContext";
 import useClickOutside from "@/lib/hooks/useClickOutside";
 import { excludedCategories } from "@/constants";
 import Link from "next/link";
+import Toggle from "../Navbar/Toggle/Toggle";
+import { usePathname } from "next/navigation";
 
 type Props = {};
 
 const Sidebar = ({}: Props) => {
-  const { gamesData, filteredGames, selectedCategory, setSelectedCategory } =
-    useGames();
+  const { filteredGames } = useGames();
   const filteredGamesKeys = Object.keys(filteredGames || {});
   const { sidebarOpen } = useSidebar();
   const sidebarRef = useRef(null);
+  let pathname = usePathname();
+  pathname = pathname.split("/")[1];
+
   useClickOutside(sidebarRef, () => {
     // Add the code you want to execute when a click outside of the Sidebar is detected
-    console.log("Clicked outside of the Sidebar");
+    // console.log("Clicked outside of the Sidebar");
   });
-  console.log("games", gamesData);
-  console.log("filteredGames", filteredGames, filteredGamesKeys);
-  console.log("selectedCategory", selectedCategory);
+
+  // console.log("games", gamesData);
+  // console.log("filteredGames", filteredGames, filteredGamesKeys);
+  // console.log("selectedCategory", selectedCategory);
+
   return (
     <aside
       ref={sidebarRef}
@@ -36,7 +42,9 @@ const Sidebar = ({}: Props) => {
       <div className="pb-4 overflow-y-auto overflow-x-hidden bg-bgDark">
         {/* Home  */}
         <Link href="/">
-          <div className="w-full px-1 py-2 flex items-center gap-3 hover:bg-black dark:hover:bg-primary mx-1 cursor-pointer group">
+          <div
+            className={`w-full px-1 py-2 flex items-center gap-3 hover:bg-black dark:hover:bg-primary mx-1 cursor-pointer group ${pathname === "home" ? "bg-black dark:bg-primary" : ""}`}
+          >
             <span className="h-5 hidden group-hover:block w-[5px] rounded-md bg-gradient-to-b from-blue-500 to-purple-500"></span>
             <Image
               src={`/icons/home.svg`}
@@ -54,7 +62,9 @@ const Sidebar = ({}: Props) => {
         {excludedCategories.map((category) => {
           return (
             <Link href={`/${category}`} key={category}>
-              <div className="w-full px-1 py-2 flex items-center gap-3 hover:bg-black dark:hover:bg-primary mx-1 cursor-pointer group">
+              <div
+                className={`w-full px-1 py-2 flex items-center gap-3 hover:bg-black dark:hover:bg-primary mx-1 cursor-pointer group ${pathname === category ? "bg-black dark:bg-primary" : ""}`}
+              >
                 <span className="h-5 hidden group-hover:block w-[5px] rounded-md bg-gradient-to-b from-blue-500 to-purple-500"></span>
                 <Image
                   src={`/icons/${category}.svg`}
@@ -83,7 +93,7 @@ const Sidebar = ({}: Props) => {
               <Link href={`/${key}`} key={key}>
                 <div
                   key={key}
-                  className={`w-full px-1 py-2 flex items-center gap-3 hover:bg-black dark:hover:bg-primary mx-1 cursor-pointer group ${selectedCategory === key ? "bg-black dark:bg-primary" : ""}`}
+                  className={`w-full px-1 py-2 flex items-center gap-3 hover:bg-black dark:hover:bg-primary mx-1 cursor-pointer group ${pathname === key ? "bg-black dark:bg-primary" : ""}`}
                 >
                   <span className="h-5 hidden group-hover:block w-[5px] rounded-md bg-gradient-to-b from-blue-500 to-purple-500"></span>
                   <Image
@@ -105,6 +115,15 @@ const Sidebar = ({}: Props) => {
             )
           );
         })}
+
+        {/* Divider */}
+        <div className="flex justify-center w-full sm:hidden">
+          <div className="w-[80%] h-0.5 bg-gradient-to-r my-5 from-blue-500 to-purple-500"></div>
+        </div>
+
+        <div className={`flex justify-center sm:hidden scale-75 mt-2`}>
+          <Toggle />
+        </div>
       </div>
     </aside>
   );

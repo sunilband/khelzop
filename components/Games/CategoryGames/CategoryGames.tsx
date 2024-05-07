@@ -13,9 +13,16 @@ type Props = {
 };
 
 const CategoryGames = ({ category }: Props) => {
-  const { filteredGames, setSelectedCategory } = useGames();
+  const { gamesData, filteredGames, setSelectedCategory } = useGames();
+
   const router = useRouter();
+
   if (filteredGames && filteredGames[category] == undefined) return notFound();
+
+  const allCategoriesFromApi = gamesData
+    ? Object.keys(gamesData?.categories)
+    : null;
+
   return (
     <>
       {!filteredGames && <CategorySkeleton />}
@@ -29,8 +36,10 @@ const CategoryGames = ({ category }: Props) => {
                 height={40}
                 alt="strategy"
               />
-              <p className="font-extrabold tracking-wide sm:text-xl text-lg dark:text-white uppercase">
-                {category}
+              <p className="font-extrabold tracking-wide sm:text-xl text-base dark:text-white uppercase">
+                {allCategoriesFromApi?.includes(category)
+                  ? gamesData?.categories[category]
+                  : category}
               </p>
             </div>
 

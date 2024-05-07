@@ -5,17 +5,17 @@ import "./Navbar.css";
 import Logo from "./Logos/Logo";
 import Toggle from "./Toggle/Toggle";
 import Link from "next/link";
-import { routes } from "./config/docs";
 import SearchBar from "./SearchBar/SearchBar";
 import HamburgerLogo from "./Logos/HamburgerLogo";
 import Favheart from "./Logos/Favheart";
+import SearchResults from "../SearchResults/SearchResults";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
   return (
     <nav className="fixed flex justify-between w-screen glass dark:bg-black p-2 z-20">
-      <Link href={routes.HOME}>
+      <Link href="/">
         <article className="flex gap-2 w-fit items-center">
           <HamburgerLogo />
           <div className="sm:scale-100 scale-75 ml-1">
@@ -32,13 +32,19 @@ const Navbar = (props: Props) => {
         </article>
       </Link>
 
-      <article className="flex gap-2 w-fit items-center">
+      <article className="flex sm:-ml-16 gap-2 w-fit items-center">
         <SearchBar />
       </article>
 
       <article className="flex gap-2 w-fit items-center">
         <Favheart />
-        <Toggle />
+        <div className="sm:block hidden">
+          <Toggle />
+        </div>
+      </article>
+
+      <article className="absolute left-1/2 right-1/2">
+        <SearchResults />
       </article>
     </nav>
   );

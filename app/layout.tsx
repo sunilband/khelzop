@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import { ThemeProvider } from "@/context/themeContext";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { SidebarProvider } from "@/context/sidebarOpenContext";
+import { SearchProvider } from "@/context/searchResultsContext";
 
 const inter = Inter({ subsets: ["latin"] });
 const nunito = Nunito({
@@ -32,16 +33,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${nunito.variable} font-sans`}>
         <ThemeProvider>
-          <SidebarProvider>
-            <GamesProvider>
-              <Navbar />
-              <div className="flex">
-                {/* <Sidebar /> */}
-                <Sidebar />
-                {children}
-              </div>
-            </GamesProvider>
-          </SidebarProvider>
+          <SearchProvider>
+            <SidebarProvider>
+              <GamesProvider>
+                <Navbar />
+                <div className="flex">
+                  {/* <Sidebar /> */}
+                  <Sidebar />
+                  {children}
+                </div>
+              </GamesProvider>
+            </SidebarProvider>
+          </SearchProvider>
         </ThemeProvider>
       </body>
     </html>

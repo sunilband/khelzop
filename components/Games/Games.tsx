@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 type Props = {};
 
 const Games = (props: Props) => {
-  const { filteredGames, setSelectedCategory } = useGames();
+  const { gamesData, filteredGames, setSelectedCategory } = useGames();
   const router = useRouter();
   const [screenWidth, setScreenWidth] = useState(0);
 
@@ -20,13 +20,18 @@ const Games = (props: Props) => {
   }, []);
 
   const numberOfSkeletons = screenWidth > 800 ? 5 : 3;
-
+  const allCategoriesFromApi = gamesData
+    ? Object.keys(gamesData?.categories)
+    : null;
   return (
     <div
       className={`w-full h-[92%] flex flex-col gap-4 items-center overflow-auto  sm:px-10 px-2 py-10`}
     >
       {/* skeleton */}
-      {!filteredGames && Array(numberOfSkeletons).fill(<SwiperSkeleton />)}
+      {!filteredGames &&
+        Array.from({ length: numberOfSkeletons }, (_, i) => (
+          <SwiperSkeleton key={i} />
+        ))}
 
       {/* show filtered games */}
       {filteredGames &&
@@ -44,12 +49,10 @@ const Games = (props: Props) => {
                     height={40}
                     alt="strategy"
                   />
-                  <p className="font-extrabold tracking-wide sm:text-xl text-lg dark:text-white uppercase">
-                    {key == "sportsRacing"
-                      ? "Sports/Racing"
-                      : key == "puzzleLogic"
-                        ? "Puzzle/Logic"
-                        : key}
+                  <p className="font-extrabold tracking-wide sm:text-xl text-base dark:text-white uppercase ">
+                    {allCategoriesFromApi?.includes(key)
+                      ? gamesData?.categories[key]
+                      : key}
                   </p>
                 </div>
 

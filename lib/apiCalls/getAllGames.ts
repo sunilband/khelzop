@@ -16,8 +16,8 @@ export const getAllGames = async (language = "en") => {
       redirect: "follow",
     });
     console.log("Data fetched from server", response);
-    // let data = await response.json()
-    let data = dummyData;
+    let data = await response.json();
+    // let data = dummyData;
     return data;
   } catch (error) {
     console.error("Error fetching data from server", error);

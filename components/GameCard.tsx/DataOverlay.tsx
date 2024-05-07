@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { Game, useGames } from "@/context/gamesContext";
+import { Game, useGames, useToggleFromFav } from "@/context/gamesContext";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
@@ -13,8 +13,21 @@ type Props = {
 };
 
 const DataOverlay = ({ name, rating, image, code }: Props) => {
+  const toggleFromFav = useToggleFromFav();
   const [isLiked, setIsLiked] = useState(false);
-  const { setFilteredGames } = useGames();
+  const { filteredGames, setFilteredGames } = useGames();
+
+  // set isLiked if present in favorites
+  useEffect(() => {
+    setFilteredGames((prev: any) => {
+      if (prev) {
+        const isLiked = prev.favorites.find((game: Game) => game.code === code);
+        setIsLiked(isLiked ? true : false);
+      }
+      return prev;
+    });
+  }, []);
+
   const pathname = usePathname();
   const isFavorite = pathname === "/favorites";
 
@@ -25,10 +38,13 @@ const DataOverlay = ({ name, rating, image, code }: Props) => {
     setFilteredGames((prev: any) => {
       if (prev) {
         if (isLiked) {
-          const newLiked = prev.favorites.filter(
-            (game: Game) => game.code !== code,
+          const index = prev.favorites.findIndex(
+            (game: Game) => game.code === code,
           );
-          return { ...prev, favorites: newLiked };
+          if (index !== -1) {
+            prev.favorites.splice(index, 1); // Remove item in place
+          }
+          return { ...prev };
         } else {
           return {
             ...prev,
@@ -45,15 +61,15 @@ const DataOverlay = ({ name, rating, image, code }: Props) => {
       {
         <motion.div
           initial={{ scale: 0 }}
-          animate={{ scale: [1.2, 1] }}
+          animate={{ scale: [2, 1] }}
           transition={{ duration: 0.3, type: "spring", stiffness: 260 }}
           className={`p-2 bg-white rounded-full absolute top-2 right-2 z-[50] ${isLiked ? "block " : "lg:hidden"}`}
           onClick={handleLikeClick}
         >
-          {isLiked && !isFavorite && (
+          {isLiked && (
             <motion.span
               initial={{ scale: 0 }}
-              animate={{ scale: [1.2, 1] }}
+              animate={{ scale: [1.5, 1] }}
               transition={{ duration: 0.3, type: "spring", stiffness: 260 }}
               className={`${isLiked ? "block " : "lg:hidden"}`}
             >

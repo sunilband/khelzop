@@ -23,14 +23,19 @@ type Props = {
 
 export const ThemeProvider = ({ children }: Props) => {
   const [currentTheme, setTheme] = useState(() => {
-    const localTheme = localStorage?.getItem("theme");
-    return localTheme ? localTheme : "light";
+    if (typeof window !== "undefined") {
+      const localTheme = localStorage.getItem("theme");
+      return localTheme ? localTheme : "light";
+    }
+    return "light";
   });
 
   useEffect(() => {
-    const localTheme = localStorage?.getItem("theme");
-    if (localTheme) {
-      setTheme(localTheme);
+    if (typeof window !== "undefined") {
+      const localTheme = localStorage.getItem("theme");
+      if (localTheme) {
+        setTheme(localTheme);
+      }
     }
   }, []);
 
@@ -39,11 +44,13 @@ export const ThemeProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    localStorage?.setItem("theme", currentTheme);
-    if (currentTheme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", currentTheme);
+      if (currentTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
     }
   }, [currentTheme]);
 
@@ -60,6 +67,5 @@ export const useTheme = () => {
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
-
   return context;
 };

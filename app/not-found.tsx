@@ -1,7 +1,9 @@
+import NotFoundPage from "@/components/pages/404/NotFoundPage";
+
 export default async function NotFound() {
   return (
-    <div className="flex justify-center items-center h-screen w-screen">
-      <p>Could not find requested resource</p>
+    <div>
+      <NotFoundPage />
     </div>
   );
 }

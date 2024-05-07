@@ -16,16 +16,24 @@ export interface Game {
   image?: string; // this is not coming from api but can be added
 }
 
+interface ApiResponseData {
+  games: Game[];
+  categories: { [key: string]: string };
+  trendingGames: string[];
+  gameOfTheWeek: string;
+  newlyAddedGames: string[];
+}
+
 interface GamesContextProps {
-  gamesData: Game[] | null;
-  setGamesData: React.Dispatch<React.SetStateAction<Game[] | null>>;
+  gamesData: ApiResponseData | null;
+  setGamesData: React.Dispatch<React.SetStateAction<ApiResponseData | null>>;
   filteredGames: FilteredGames | null;
   setFilteredGames: React.Dispatch<React.SetStateAction<FilteredGames | null>>;
   selectedCategory: string | null;
   setSelectedCategory: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-interface FilteredGames {
+export interface FilteredGames {
   [category: string]: Game[];
 }
 
@@ -34,7 +42,7 @@ const GamesContext = createContext<GamesContextProps | undefined>(undefined);
 export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [gamesData, setGamesData] = useState<Game[] | null>(null);
+  const [gamesData, setGamesData] = useState<ApiResponseData | null>(null);
   const [filteredGames, setFilteredGames] = useState<FilteredGames | null>(
     null,
   );
@@ -76,7 +84,7 @@ export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const response = await getAllGames();
         // @ts-ignore
-        setGamesData(response.data.games);
+        setGamesData(response.data);
         // @ts-ignore
         const filtererData = filteredHashMap(response.data.games);
         setFilteredGames(filtererData);
@@ -110,4 +118,34 @@ export const useGames = (): GamesContextProps => {
     throw new Error("useGames must be used within a GamesProvider");
   }
   return context;
+};
+
+export const useToggleFromFav = () => {
+  const { setFilteredGames, gamesData } = useGames();
+
+  const toggleFromFav = (code: string) => {
+    setFilteredGames((prev) => {
+      if (prev) {
+        const isFavorite = prev.favorites.some(
+          (game: Game) => game.code === code,
+        );
+        if (isFavorite) {
+          const newFavorites = prev.favorites.filter(
+            (game: Game) => game.code !== code,
+          );
+          return { ...prev, favorites: newFavorites };
+        } else {
+          const gameToAdd = gamesData?.games.find(
+            (game: Game) => game.code === code,
+          );
+          if (gameToAdd) {
+            return { ...prev, favorites: [gameToAdd, ...prev.favorites] };
+          }
+        }
+      }
+      return prev;
+    });
+  };
+
+  return toggleFromFav;
 };
