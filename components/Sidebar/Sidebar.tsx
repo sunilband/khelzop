@@ -15,14 +15,14 @@ const Sidebar = ({}: Props) => {
   const { filteredGames } = useGames();
   const filteredGamesKeys = Object.keys(filteredGames || {});
   const { sidebarOpen } = useSidebar();
-  const sidebarRef = useRef(null);
+  // const sidebarRef = useRef(null);
   let pathname = usePathname();
   pathname = pathname.split("/")[1];
 
-  useClickOutside(sidebarRef, () => {
-    // Add the code you want to execute when a click outside of the Sidebar is detected
-    // console.log("Clicked outside of the Sidebar");
-  });
+  // useClickOutside(sidebarRef, () => {
+  //   // Add the code you want to execute when a click outside of the Sidebar is detected
+  //   // console.log("Clicked outside of the Sidebar");
+  // });
 
   // console.log("games", gamesData);
   // console.log("filteredGames", filteredGames, filteredGamesKeys);
@@ -30,7 +30,7 @@ const Sidebar = ({}: Props) => {
 
   return (
     <aside
-      ref={sidebarRef}
+      // ref={sidebarRef}
       className={`fixed ${
         sidebarOpen ? "lg:visible" : "lg:hidden"
       } top-[3.5rem] left-0 w-64 lg:w-16 h-screen transition-all duration-200 md:hover:w-64 z-50 ${

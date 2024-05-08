@@ -13,7 +13,7 @@ type Props = {
 };
 
 const DataOverlay = ({ name, rating, image, code }: Props) => {
-  const toggleFromFav = useToggleFromFav();
+  // const toggleFromFav = useToggleFromFav();
   const [isLiked, setIsLiked] = useState(false);
   const { filteredGames, setFilteredGames } = useGames();
 
@@ -103,7 +103,10 @@ const DataOverlay = ({ name, rating, image, code }: Props) => {
         <div className="group-hover:block hidden z-[50]">
           {!isFavorite &&
             (!isLiked ? (
-              <FaRegHeart className="w-7 h-7" onClick={handleLikeClick} />
+              <FaRegHeart
+                className="w-7 h-7 hover:scale-105 hover:fill-red-500 transition-all ease-in-out  duration-200"
+                onClick={handleLikeClick}
+              />
             ) : (
               <FaHeart
                 className="w-7 h-7 fill-red-500"

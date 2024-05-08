@@ -1,16 +1,14 @@
 "use client";
 import React from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
-import { useGames } from "@/context/gamesContext";
 import { useRouter, usePathname } from "next/navigation";
 
 type Props = {};
 
 const Favheart = (props: Props) => {
   const router = useRouter();
-  const { selectedCategory } = useGames();
   const pathname = usePathname();
-  console.log(pathname);
+
   return (
     <div>
       {pathname !== "/favorites" && (

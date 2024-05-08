@@ -12,7 +12,7 @@ const HamburgerLogo = (props: Props) => {
     <MdMenuOpen
       className={`w-10 h-10 cursor-pointer  dark:invert ${sidebarOpen ? "rotate-0" : "rotate-180"}`}
       onClick={() => {
-        !sidebarOpen && toggleSidebar();
+        toggleSidebar();
       }}
     />
   );
