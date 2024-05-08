@@ -1,5 +1,3 @@
-import { dummyData } from "@/dummyData";
-
 const server = process.env.NEXT_PUBLIC_GAMEZOP_API;
 
 export const getAllGames = async (language = "en") => {
@@ -15,9 +13,7 @@ export const getAllGames = async (language = "en") => {
       },
       redirect: "follow",
     });
-    console.log("Data fetched from server", response);
     let data = await response.json();
-    // let data = dummyData;
     return data;
   } catch (error) {
     console.error("Error fetching data from server", error);

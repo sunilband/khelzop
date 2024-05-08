@@ -1,14 +1,13 @@
 import { GamesProvider } from "@/context/gamesContext";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Nunito } from "next/font/google";
+import { Nunito } from "next/font/google";
 import Navbar from "@/components/Navbar/Navbar";
 import { ThemeProvider } from "@/context/themeContext";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { SidebarProvider } from "@/context/sidebarOpenContext";
 import { SearchProvider } from "@/context/searchResultsContext";
 
-const inter = Inter({ subsets: ["latin"] });
 const nunito = Nunito({
   subsets: ["latin"],
   display: "swap",
@@ -17,6 +16,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
+  manifest: "/manifest.json",
   title: "Khelzop - The Game Store",
   description:
     "On Khelzop you can play the best free online games. Khelzop has the best online games selection of multiplayer games and single-player games.",

@@ -4,14 +4,13 @@ import SwiperComponent from "../Swiper/SwiperComponent";
 import { useGames } from "@/context/gamesContext";
 import Image from "next/image";
 import { MdNavigateNext } from "react-icons/md";
-import CategoryGames from "./CategoryGames/CategoryGames";
 import SwiperSkeleton from "../Skeletons/SwiperSkeleton";
 import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Games = (props: Props) => {
-  const { gamesData, filteredGames, setSelectedCategory } = useGames();
+  const { gamesData, filteredGames } = useGames();
   const router = useRouter();
   const [screenWidth, setScreenWidth] = useState(0);
 
