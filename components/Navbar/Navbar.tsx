@@ -15,22 +15,24 @@ type Props = {};
 const Navbar = (props: Props) => {
   return (
     <nav className="fixed flex justify-between w-screen glass dark:bg-black p-2 z-20">
-      <Link href="/">
-        <article className="flex gap-2 w-fit items-center">
-          <HamburgerLogo />
-          <div className="sm:scale-100 scale-75 ml-1">
+      <article className="flex gap-2 w-fit items-center">
+        <HamburgerLogo />
+        <div className="sm:scale-100 scale-75 ml-1">
+          <Link href="/">
             <Logo />
-          </div>
-          <div>
+          </Link>
+        </div>
+        <div>
+          <Link href="/">
             <h1 className="font-[900] sm:text-xl text-lg tracking-wider uppercase text-primary cursor-pointer">
               Khelzop
             </h1>
             <p className="font-medium text-sm -mt-2 cursor-pointer  dark:text-white">
               Fun Unlimited
             </p>
-          </div>
-        </article>
-      </Link>
+          </Link>
+        </div>
+      </article>
 
       <article className="flex sm:-ml-16 gap-2 w-fit items-center">
         <SearchBar />
