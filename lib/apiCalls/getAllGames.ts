@@ -12,6 +12,9 @@ export const getAllGames = async (language = "en") => {
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
       },
       redirect: "follow",
+      next: {
+        revalidate: 60,
+      },
     });
     let data = await response.json();
     return data;
