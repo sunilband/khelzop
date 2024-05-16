@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { Game, useGames, useToggleFromFav } from "@/context/gamesContext";
+import { Game, useGames } from "@/context/gamesContext";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
@@ -15,7 +15,7 @@ type Props = {
 const DataOverlay = ({ name, rating, image, code }: Props) => {
   // const toggleFromFav = useToggleFromFav();
   const [isLiked, setIsLiked] = useState(false);
-  const { filteredGames, setFilteredGames } = useGames();
+  const { setFilteredGames } = useGames();
 
   // set isLiked if present in favorites
   useEffect(() => {
