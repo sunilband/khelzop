@@ -30,12 +30,15 @@ const GameCard = ({ name, rating, image, tinyImage, code, index }: Props) => {
         <Image
           src={`${image ? image : "/images/square.png"}`}
           alt="game"
-          fill
+          // fill
+          width={170}
+          height={170}
           className="rounded-md"
           //use blur
-          blurDataURL={`${tinyImage ? tinyImage : "/images/square.png"}`}
-          placeholder="blur"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          // blurDataURL={`${tinyImage ? tinyImage : "/images/square.png"}`}
+          // placeholder="blur"
+          quality={30}
+          // sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 20vw"
         />
 
         <DataOverlay name={name} rating={rating} image={image} code={code} />

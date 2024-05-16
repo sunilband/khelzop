@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { getAllGames } from "@/lib/apiCalls/getAllGames";
 
 export interface Game {
@@ -49,33 +55,6 @@ export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
     null,
   );
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  const filteredHashMap = (games: Game[]): FilteredGames => {
-    const hashMap: FilteredGames = {};
-
-    games.forEach((game) => {
-      game.categories.forEach((category) => {
-        if (!hashMap[category]) {
-          hashMap[category] = [];
-        }
-        hashMap[category].push(game);
-      });
-    });
-
-    // Add 'random' category
-    const randomGames = [...games];
-    randomGames.sort(() => Math.random() - 0.5);
-    hashMap["random"] = randomGames.slice(0, 20);
-
-    // Add 'new' category
-    const newGames = games.filter((game) => game.new);
-    hashMap["new"] = newGames;
-
-    // Add 'favorites' category
-    hashMap["favorites"] = [];
-
-    return hashMap;
-  };
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -138,31 +117,63 @@ export const useGames = (): GamesContextProps => {
 export const useToggleFromFav = () => {
   const { setFilteredGames, gamesData } = useGames();
 
-  const toggleFromFav = (code: string) => {
-    setFilteredGames((prev) => {
-      if (prev) {
-        const isFavorite = prev.favorites.some(
-          (game: Game) => game.code === code,
-        );
-        if (isFavorite) {
-          const newFavorites = prev.favorites.filter(
-            (game: Game) => game.code !== code,
-          );
-          return { ...prev, favorites: newFavorites };
-        } else {
-          const gameToAdd = gamesData?.games.find(
+  const toggleFromFav = useCallback(
+    (code: string) => {
+      setFilteredGames((prev) => {
+        if (prev) {
+          const isFavorite = prev.favorites.some(
             (game: Game) => game.code === code,
           );
-          if (gameToAdd) {
-            return { ...prev, favorites: [gameToAdd, ...prev.favorites] };
+          if (isFavorite) {
+            const newFavorites = prev.favorites.filter(
+              (game: Game) => game.code !== code,
+            );
+            return { ...prev, favorites: newFavorites };
+          } else {
+            const gameToAdd = gamesData?.games.find(
+              (game: Game) => game.code === code,
+            );
+            if (gameToAdd) {
+              return { ...prev, favorites: [gameToAdd, ...prev.favorites] };
+            }
           }
         }
-      }
-      return prev;
-    });
-  };
+        return prev;
+      });
+    },
+    [setFilteredGames, gamesData],
+  );
 
   return toggleFromFav;
+};
+
+// usefull functions
+
+const filteredHashMap = (games: Game[]): FilteredGames => {
+  const hashMap: FilteredGames = {};
+
+  games.forEach((game) => {
+    game.categories.forEach((category) => {
+      if (!hashMap[category]) {
+        hashMap[category] = [];
+      }
+      hashMap[category].push(game);
+    });
+  });
+
+  // Add 'random' category
+  const randomGames = [...games];
+  randomGames.sort(() => Math.random() - 0.5);
+  hashMap["random"] = randomGames.slice(0, 20);
+
+  // Add 'new' category
+  const newGames = games.filter((game) => game.new);
+  hashMap["new"] = newGames;
+
+  // Add 'favorites' category
+  hashMap["favorites"] = [];
+
+  return hashMap;
 };
 
 const convertNewApiGamesToOldApiGames = (games: any) => {
