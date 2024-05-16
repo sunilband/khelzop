@@ -57,7 +57,7 @@ const Games = (props: Props) => {
 
                 <button
                   className="bg-primary   flex items-center text-white px-4 py-2 rounded-lg"
-                  onClick={() => router.push(`/${key}`)}
+                  onClick={() => router.push(`/categories/${key}`)}
                 >
                   Show All
                   <div className="ml-2 bg-black rounded-full p-1">

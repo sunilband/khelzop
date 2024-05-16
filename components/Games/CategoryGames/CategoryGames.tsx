@@ -67,6 +67,7 @@ const CategoryGames = ({ category }: Props) => {
                     name={game.name}
                     rating={game.rating}
                     image={game.image}
+                    tinyImage={game.imageTiny}
                     code={game.code}
                     index={index}
                   />

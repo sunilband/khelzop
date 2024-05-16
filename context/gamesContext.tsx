@@ -14,6 +14,8 @@ export interface Game {
   created_at: string;
   gamePlays: number;
   image?: string; // this is not coming from api but can be added
+  imageTiny?: string; // this is not coming from api but can be added
+  new?: boolean; // this is not coming from api but can be added
 }
 
 interface ApiResponseData {
@@ -66,12 +68,8 @@ export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
     hashMap["random"] = randomGames.slice(0, 20);
 
     // Add 'new' category
-    const newGames = [...games];
-    newGames.sort(
-      (a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-    );
-    hashMap["new"] = newGames.slice(0, 20);
+    const newGames = games.filter((game) => game.new);
+    hashMap["new"] = newGames;
 
     // Add 'favorites' category
     hashMap["favorites"] = [];
@@ -83,11 +81,28 @@ export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchGames = async () => {
       try {
         const response = await getAllGames();
+        let newApiResponse: any = await fetch(
+          process.env.NEXT_PUBLIC_NEW_GAMEZOP_API || "",
+          {
+            next: {
+              revalidate: 60,
+            },
+          },
+        );
+        newApiResponse = await newApiResponse.json();
+        const oldApiGames = convertNewApiGamesToOldApiGames(
+          newApiResponse?.games,
+        );
+        console.log("New API Response", oldApiGames);
+        // @ts-ignore
+        const filtererData = filteredHashMap(oldApiGames);
+        setFilteredGames(filtererData);
+        response.data.games = oldApiGames;
+        console.log("New API Response", newApiResponse);
         // @ts-ignore
         setGamesData(response.data);
-        // @ts-ignore
-        const filtererData = filteredHashMap(response.data.games);
-        setFilteredGames(filtererData);
+        console.log("Response", response.data);
+        console.log("Filtered Data", filtererData);
       } catch (error) {
         console.error("Failed to fetch games:", error);
       }
@@ -148,4 +163,25 @@ export const useToggleFromFav = () => {
   };
 
   return toggleFromFav;
+};
+
+const convertNewApiGamesToOldApiGames = (games: any) => {
+  const mappedData = games.map((game: any) => ({
+    code: game.code,
+    nameEn: game.name.en,
+    battleSupported: false, // Assuming default value as this data isn't present in the new API
+    rating: game.rating,
+    totalRating: game.numberOfRatings,
+    name: game.name.en,
+    categories: game.categories.en.map((category: any) =>
+      category.toLowerCase(),
+    ), // Converting to lowercase to match old API format
+    created_at: new Date().toISOString(), // Assuming current date as this data isn't present in the new API
+    gamePlays: game.gamePlays,
+    image: game.assets.square,
+    imageTiny: game.assets.coverTiny,
+    new: game.tags.en == "New Games" ? true : false,
+  }));
+
+  return mappedData;
 };

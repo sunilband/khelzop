@@ -10,12 +10,12 @@
 }
 
 .swiper-button-next::after {
-  content: url("https://img.icons8.com/ios-glyphs/30/forward.png");
+  content: url("/images/forward.png");
   font-size: 1.5rem;
 }
 
 .swiper-button-prev::after {
-  content: url("https://img.icons8.com/ios-glyphs/30/forward.png");
+  content: url("/images/forward.png");
   transform: rotate(180deg);
   font-size: 1.5rem;
 }
