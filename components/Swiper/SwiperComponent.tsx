@@ -55,11 +55,12 @@ const SwiperComponent = (props: Props) => {
       }}
     >
       {props.gamesData?.map((game, index) => (
-        <SwiperSlide key={index}>
+        <SwiperSlide key={index} className="py-2">
           <GameCard
             name={game.name}
             rating={game.rating}
             image={game.image}
+            tinyImage={game.imageTiny}
             code={game.code}
             index={index}
           />

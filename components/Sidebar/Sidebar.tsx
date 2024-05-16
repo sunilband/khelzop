@@ -61,7 +61,7 @@ const Sidebar = ({}: Props) => {
 
         {excludedCategories.map((category) => {
           return (
-            <Link href={`/${category}`} key={category}>
+            <Link href={`/categories/${category}`} key={category}>
               <div
                 className={`w-full px-1 py-2 flex items-center gap-3 hover:bg-black dark:hover:bg-primary mx-1 cursor-pointer group ${pathname === category ? "bg-black dark:bg-primary" : ""}`}
               >
@@ -90,7 +90,7 @@ const Sidebar = ({}: Props) => {
         {filteredGamesKeys.map((key) => {
           return (
             !excludedCategories.includes(key) && (
-              <Link href={`/${key}`} key={key}>
+              <Link href={`/categories/${key}`} key={key}>
                 <div
                   key={key}
                   className={`w-full px-1 py-2 flex items-center gap-3 hover:bg-black dark:hover:bg-primary mx-1 cursor-pointer group ${pathname === key ? "bg-black dark:bg-primary" : ""}`}
@@ -104,9 +104,9 @@ const Sidebar = ({}: Props) => {
                     className="ml-3"
                   />
                   <p className="ml-3 font-bold tracking-widest text-white group-hover:translate-x-2 transition-all ease-in-out duration-200 cursor-pointer uppercase">
-                    {key == "sportsRacing"
+                    {key == "sports & racing"
                       ? "Sports/Racing"
-                      : key == "puzzleLogic"
+                      : key == "puzzle & logic"
                         ? "Puzzle/Logic"
                         : key}
                   </p>
