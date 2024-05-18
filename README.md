@@ -7,41 +7,13 @@ Demo - https://khelzop.vercel.app/
 ## Features
 
 - Refresh persistent Light/dark mode toggle
+- Image Radio Section
 - PWA support
 - Search enabled
 - Section Sidebar
 - Favorites
 - Custom 404 page
 - Mobile Responsive
-
-## Screenshots (In order of features)
-
-[1]Refresh persistent Light/dark mode toggle
-![App Screenshot](https://s9.gifyu.com/images/Sa6Hx.gif)
-
-[2]PWA support
-![App Screenshot](https://s9.gifyu.com/images/Sa6Ki.gif)
-
-[3]Search enabled
-![App Screenshot](https://s12.gifyu.com/images/Sa6N6.gif)
-
-[4]Section Sidebar
-![App Screenshot](https://s12.gifyu.com/images/Sa63g.gif)
-
-[5]Favorites
-![App Screenshot](https://s9.gifyu.com/images/Sa6ES.gif)
-
-[6]Custom 404 page
-![App Screenshot](https://s9.gifyu.com/images/Sa6ER.gif)
-
-[7]Mobile Responsive
-![App Screenshot](https://s12.gifyu.com/images/Sa6vu.gif)
-
-## FAQ
-
-#### 1> Why is there same image for all games?
-
-The Api has no images. Will update when/if new api is available.
 
 ## Environment Variables
 

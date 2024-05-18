@@ -95,7 +95,10 @@ const DataOverlay = ({ name, rating, image, code }: Props) => {
           )}
         </motion.div>
       }
-      <div className="flex group-hover:h-full transition-all ease-in-out duration-200 justify-center w-full darkglass h-[30%] items-center z-20 absolute bottom-0 flex-col text-white rounded-b-md group-hover:rounded-md group-hover:gap-2">
+      <div
+        className="flex group-hover:h-full transition-all ease-in-out duration-200 justify-center w-full darkglass h-[30%] items-center z-20 absolute bottom-0 flex-col text-white rounded-b-md group-hover:rounded-md group-hover:gap-2"
+        style={{ WebkitTextStroke: "0.08px black" }}
+      >
         <p className="font-semibold mix-blend-difference w-full truncate text-center">
           {name || "N/A"}
         </p>
