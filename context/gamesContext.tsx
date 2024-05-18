@@ -19,9 +19,11 @@ export interface Game {
   categories: string[];
   created_at: string;
   gamePlays: number;
+  new?: boolean;
   image?: string; // this is not coming from api but can be added
   imageTiny?: string; // this is not coming from api but can be added
-  new?: boolean; // this is not coming from api but can be added
+  imageCover?: string;
+  description?: string;
 }
 
 interface ApiResponseData {
@@ -192,6 +194,8 @@ const convertNewApiGamesToOldApiGames = (games: any) => {
     image: game.assets.square,
     imageTiny: game.assets.coverTiny,
     new: game.tags.en == "New Games" ? true : false,
+    imageCover: game.assets.cover,
+    description: game.description.en,
   }));
 
   return mappedData;

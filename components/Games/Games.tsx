@@ -6,6 +6,7 @@ import Image from "next/image";
 import { MdNavigateNext } from "react-icons/md";
 import SwiperSkeleton from "../Skeletons/SwiperSkeleton";
 import { useRouter } from "next/navigation";
+import RadioGroup from "../RadioGroup/RadioGroup";
 
 type Props = {};
 
@@ -26,6 +27,9 @@ const Games = (props: Props) => {
     <div
       className={`w-full h-[92%] flex flex-col gap-4 items-center overflow-auto  sm:px-10 px-2 py-10`}
     >
+      {/* Radio Group */}
+      {filteredGames && <RadioGroup games={filteredGames?.featured} />}
+
       {/* skeleton */}
       {!filteredGames &&
         Array.from({ length: numberOfSkeletons }, (_, i) => (
